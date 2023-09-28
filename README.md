@@ -1,6 +1,6 @@
 # PlgxUnpacker.Tools
 
-A collection of tools for manipulating [KeePass](https://keepass.info/) [PLGX files](https://keepass.info/help/v2_dev/plg_index.html#plgx).
+A collection of tools for unpacking [KeePass](https://keepass.info/) [PLGX files](https://keepass.info/help/v2_dev/plg_index.html#plgx).
 
 ## Tools
 * __PlgxUnpacker__ - a Windows tool for unpacking [KeePass](https://keepass.info/) [PLGX files](https://keepass.info/help/v2_dev/plg_index.html#plgx).
@@ -18,6 +18,7 @@ The main repository is hosted on [GitHub](https://github.com/cristianst85/PlgxUn
 See [CHANGELOG](https://github.com/cristianst85/PlgxUnpacker.Tools/blob/master/CHANGELOG.md) file for details.
 
 ## Download
+
 You can download compiled binaries from [here](https://github.com/cristianst85/PlgxUnpacker.Tools/releases).
 
 ## Development
