@@ -1,4 +1,5 @@
-﻿using PlgxUnpacker.Worker.EventArguments;
+﻿using PlgxUnpacker.Extensions;
+using PlgxUnpacker.Worker.EventArguments;
 using System;
 using System.IO;
 using System.Threading;
@@ -15,10 +16,14 @@ namespace PlgxUnpacker.Worker
         public delegate void PlgxFileUnpackingCompletedEventHandler(object sender, EventArgs e);
         public delegate void PlgxFileUnpackingCancelledEventHandler(object sender, EventArgs e);
 
+        public delegate FileOverwritePromptResult RemoteFileOverwritePromptCallback(object sender, string fileName);
+
         public event PlgxFileEntryUnpackedEventHandler PlgxFileEntryUnpacked;
         public event PlgxFileUnpackingErrorEventHandler PlgxFileUnpackingError;
         public event PlgxFileUnpackingCompletedEventHandler PlgxFileUnpackingCompleted;
         public event PlgxFileUnpackingCompletedEventHandler PlgxFileUnpackingCancelled;
+
+        public RemoteFileOverwritePromptCallback FileOverwritePromptCallback { get; set; }
 
         private readonly PlgxFile plgxFile;
         private readonly PlgxFileUnpackOptions plgxFileUnpackOptions;
@@ -56,6 +61,8 @@ namespace PlgxUnpacker.Worker
                     var filesTotalCount = plgxFile.Info.FileNames.Count;
                     var filesProcessedCount = 0;
 
+                    FileOverwritePromptResult? fileOverwritePromptResult = null;
+
                     foreach (var plgxFileEntry in plgxFile.GetUnpackedFiles())
                     {
                         if (CancellationSource.IsCancellationRequested)
@@ -71,7 +78,26 @@ namespace PlgxUnpacker.Worker
                             Directory.CreateDirectory(directoryPath);
                         }
 
-                        File.WriteAllBytes(filePath, plgxFileEntry.Content);
+                        if (fileOverwritePromptResult.IsNullOrUnknown() && File.Exists(filePath))
+                        {
+                            fileOverwritePromptResult = FileOverwritePromptCallback?.Invoke(this, plgxFileEntry.Name);
+                            
+                            if (fileOverwritePromptResult == FileOverwritePromptResult.Cancel)
+                            {
+                                CancellationSource.Cancel();
+                                break;
+                            }
+                        }
+
+                        if (fileOverwritePromptResult.IsNullOrUnknown() || fileOverwritePromptResult.IsYesOrYesAll())
+                        {
+                            File.WriteAllBytes(filePath, plgxFileEntry.Content);
+                        }
+
+                        if (fileOverwritePromptResult.IsYesOrNo())
+                        {
+                            fileOverwritePromptResult = FileOverwritePromptResult.Unknown;
+                        }
 
                         OnPlgxFileEntryUnpacked(plgxFileEntry.Name, ++filesProcessedCount, filesTotalCount);
                     }

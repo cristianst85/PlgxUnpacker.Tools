@@ -50,11 +50,19 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileOverwritePromptResult.cs" />
     <Compile Include="Controls\StatusStripRenderer.cs" />
     <Compile Include="Extensions\BoolExtensions.cs" />
     <Compile Include="Extensions\CheckBoxExtensions.cs" />
     <Compile Include="Extensions\CheckStateExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\FileOverwritePromptResultExtensions.cs" />
+    <Compile Include="FormConfirmFileOverwrite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConfirmFileOverwrite.Designer.cs">
+      <DependentUpon>FormConfirmFileOverwrite.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\AssemblyUtils.cs" />
     <Compile Include="Helpers\EnvironmentUtils.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />
@@ -106,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConfirmFileOverwrite.resx">
+      <DependentUpon>FormConfirmFileOverwrite.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

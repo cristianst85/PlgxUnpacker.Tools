@@ -178,6 +178,7 @@ namespace PlgxUnpacker
                 plgxFileUnpackerWorker.PlgxFileUnpackingError -= PlgxFileUnpackerProcessor_PlgxFileUnpackingError;
                 plgxFileUnpackerWorker.PlgxFileUnpackingCompleted -= PlgxFileUnpackerProcessor_PlgxFileUnpackingCompleted;
                 plgxFileUnpackerWorker.PlgxFileUnpackingCancelled -= PlgxFileUnpackerProcessor_PlgxFileUnpackingCancelled;
+                plgxFileUnpackerWorker.FileOverwritePromptCallback -= PlgxFileUnpackerProcessor_FileOverwritePromptCallback;
 
                 plgxFileUnpackerWorker = null;
             }
@@ -188,6 +189,7 @@ namespace PlgxUnpacker
             plgxFileUnpackerWorker.PlgxFileUnpackingError += PlgxFileUnpackerProcessor_PlgxFileUnpackingError;
             plgxFileUnpackerWorker.PlgxFileUnpackingCompleted += PlgxFileUnpackerProcessor_PlgxFileUnpackingCompleted;
             plgxFileUnpackerWorker.PlgxFileUnpackingCancelled += PlgxFileUnpackerProcessor_PlgxFileUnpackingCancelled;
+            plgxFileUnpackerWorker.FileOverwritePromptCallback += PlgxFileUnpackerProcessor_FileOverwritePromptCallback;
 
             await plgxFileUnpackerWorker.Run();
         }
@@ -229,6 +231,19 @@ namespace PlgxUnpacker
                 UpdateStatusStrip(Properties.Resources.UnpackingInterrupted);
                 ToggleUnpackButtonText(enabled: true);
             });
+        }
+
+        private FileOverwritePromptResult PlgxFileUnpackerProcessor_FileOverwritePromptCallback(object sender, string fileName)
+        {
+            using (var formConfirmFileOverwrite = new FormConfirmFileOverwrite(fileName))
+            {
+                this.InvokeIfRequired(() =>
+                {
+                    formConfirmFileOverwrite.ShowDialog(this);
+                });
+
+                return formConfirmFileOverwrite.FileOverwritePromptResult;
+            }
         }
 
         private bool IsFileWorkerRunning()
