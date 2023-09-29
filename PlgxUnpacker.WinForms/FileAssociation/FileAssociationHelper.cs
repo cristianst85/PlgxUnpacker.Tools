@@ -11,6 +11,15 @@
             return fileAssociationInfo.Exists() && fileAssociationInfo.IsFor(programId) && programAssociationInfo.Exists();
         }
 
+        internal static bool IsExtensionRegisteredForApplicationPath(string applicationName, string applicationPath, string extension)
+        {
+            var programId = string.Format("{0}.{1}", applicationName, extension.TrimStart('.').ToUpper());
+            var programAssociationInfo = new ProgramAssociationInfo(programId);
+            var programVerbCommand = programAssociationInfo.Read("open");
+
+            return programVerbCommand.Command == string.Format(@"{0} ""%1""", applicationPath);
+        }
+
         internal static void RegisterExtension(string applicationName, string applicationPath, string extension)
         {
             var programId = string.Format("{0}.{1}", applicationName, extension.TrimStart('.').ToUpper());

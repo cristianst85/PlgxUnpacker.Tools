@@ -1,23 +1,42 @@
-﻿using System;
+﻿using PlgxUnpacker.Extensions;
+using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PlgxUnpacker.Configuration
 {
     public class RegisterOptions
     {
-        private static readonly ICollection<string> validRegisterOptions = new List<string>() { "shell", "icons", "openFile", "unpackFileHere" };
-        private static readonly ICollection<string> validExtensionsOptions = new List<string>() { "plgx" };
+        public static IReadOnlyCollection<string> All = new List<string>()
+        {
+            RegisterShellOpenFile,
+            UnRegisterShellOpenFile,
+            RegisterShellUnpackFileHere,
+            UnRegisterShellUnpackFileHere,
+            RegisterIcon,
+            UnRegisterIcon,
+            RegisterExtension,
+            UnRegisterExtension
+        };
 
-        public bool IntegrateIntoShell { get; set; }
+        private const string RegisterShellOpenFile = "--register-shell:openFile";
+        private const string UnRegisterShellOpenFile = "--unregister-shell:openFile";
 
-        public bool ShowOpenFileMenuEntry { get; set; }
+        private const string RegisterShellUnpackFileHere = "--register-shell:unpackFileHere";
+        private const string UnRegisterShellUnpackFileHere = "--unregister-shell:unpackFileHere";
 
-        public bool ShowUnpackFileHereMenuEntry { get; set; }
+        private const string RegisterIcon = "--register-shell:icon";
+        private const string UnRegisterIcon = "--unregister-shell:icon";
 
-        public bool ShowIcons { get; set; }
+        private const string RegisterExtension = "--register-extension";
+        private const string UnRegisterExtension = "--unregister-extension";
 
-        public bool AssociateWithPlgxFiles { get; set; }
+        public bool? ShowOpenFileMenuEntry { get; set; }
+
+        public bool? ShowUnpackFileHereMenuEntry { get; set; }
+
+        public bool? ShowIcon { get; set; }
+
+        public bool? AssociateWithPlgxFiles { get; set; }
 
         public RegisterOptions()
         {
@@ -27,129 +46,90 @@ namespace PlgxUnpacker.Configuration
         {
             var options = new RegisterOptions();
 
-            if (arguments.Count == 1 && arguments[0].Equals("--unregister"))
+            foreach (var argument in arguments)
             {
-                return options;
-            }
-            else if (arguments.Count > 1 && arguments.Count % 2 == 0)
-            {
-                for (int i = 0; i < arguments.Count; i = i + 2)
+                if (argument.Equals(RegisterShellOpenFile))
                 {
-                    var arg = arguments[i];
-
-                    if (arg.Equals("--register"))
-                    {
-                        string[] values = arguments[i + 1].Split('-');
-
-                        foreach (var value in values)
-                        {
-                            if (validRegisterOptions.Contains(value))
-                            {
-                                if (value.Equals("shell"))
-                                {
-                                    options.IntegrateIntoShell = true;
-                                }
-
-                                if (value.Equals("openFile"))
-                                {
-                                    options.ShowOpenFileMenuEntry = true;
-                                }
-
-                                if (value.Equals("unpackFileHere"))
-                                {
-                                    options.ShowUnpackFileHereMenuEntry = true;
-                                }
-
-                                if (value.Equals("icons"))
-                                {
-                                    options.ShowIcons = true;
-                                }
-
-                            }
-                            else
-                            {
-                                throw new Exception("Invalid value for --register option.");
-                            }
-                        }
-                    }
-                    else if (arg.Equals("--extensions"))
-                    {
-                        string[] values = arguments[i + 1].Split('-');
-
-                        foreach (var value in values)
-                        {
-                            if (validExtensionsOptions.Contains(value))
-                            {
-                                if (value.Equals("plgx"))
-                                {
-                                    options.AssociateWithPlgxFiles = true;
-                                }
-                            }
-                            else
-                            {
-                                throw new Exception("Invalid value for --extensions option.");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("Invalid options.");
-                    }
+                    options.ShowOpenFileMenuEntry = true;
+                }
+                else if (argument.Equals(UnRegisterShellOpenFile))
+                {
+                    options.ShowOpenFileMenuEntry = false;
+                }
+                else if (argument.Equals(RegisterShellUnpackFileHere))
+                {
+                    options.ShowUnpackFileHereMenuEntry = true;
+                }
+                else if (argument.Equals(UnRegisterShellUnpackFileHere))
+                {
+                    options.ShowUnpackFileHereMenuEntry = false;
+                }
+                else if (argument.Equals(RegisterIcon))
+                {
+                    options.ShowIcon = true;
+                }
+                else if (argument.Equals(UnRegisterIcon))
+                {
+                    options.ShowIcon = false;
+                }
+                else if (argument.Equals(RegisterExtension))
+                {
+                    options.AssociateWithPlgxFiles = true;
+                }
+                else if (argument.Equals(UnRegisterExtension))
+                {
+                    options.AssociateWithPlgxFiles = false;
+                }
+                else
+                {
+                    throw new Exception($"Invalid '{argument}' argument.");
                 }
             }
-            else
-            {
-                throw new Exception("Invalid number of options.");
-            }
+
             return options;
         }
 
-
         public string ToArguments()
         {
-            var command = new StringBuilder();
+            var options = new List<string>();
 
-            if (this.IntegrateIntoShell)
+            if (ShowOpenFileMenuEntry.IsTrue())
             {
-                command.Append("--register shell");
-
-                if (this.ShowOpenFileMenuEntry)
-                {
-                    command.Append("-openFile");
-                }
-
-                if (this.ShowUnpackFileHereMenuEntry)
-                {
-                    command.Append("-unpackFileHere");
-                }
-
-                if (this.ShowIcons)
-                {
-                    command.Append("-icons");
-                }
+                options.Add(RegisterShellOpenFile);
+            }
+            else if (ShowOpenFileMenuEntry.IsFalse())
+            {
+                options.Add(UnRegisterShellOpenFile);
             }
 
-            if (this.AssociateWithPlgxFiles)
+            if (ShowUnpackFileHereMenuEntry.IsTrue())
             {
-                if (command.Length > 0)
-                {
-                    command.Append(" ");
-                }
-
-                command.Append("--extensions ");
-
-                if (this.AssociateWithPlgxFiles)
-                {
-                    command.Append("plgx");
-                }
+                options.Add(RegisterShellUnpackFileHere);
+            }
+            else if (ShowUnpackFileHereMenuEntry.IsFalse())
+            {
+                options.Add(UnRegisterShellUnpackFileHere);
             }
 
-            if (command.Length == 0)
+            if (ShowIcon.IsTrue())
             {
-                command.Append("--unregister");
+                options.Add(RegisterIcon);
+            }
+            else if (ShowIcon.IsFalse())
+            {
+                options.Add(UnRegisterIcon);
             }
 
-            return command.ToString();
+            if (AssociateWithPlgxFiles.IsTrue())
+            {
+                options.Add(RegisterExtension);
+            }
+            else if (AssociateWithPlgxFiles.IsFalse())
+            {
+                options.Add(UnRegisterExtension);
+            }
+
+            return options.Join();
         }
     }
 }

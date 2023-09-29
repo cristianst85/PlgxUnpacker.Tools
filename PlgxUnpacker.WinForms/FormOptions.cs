@@ -1,6 +1,7 @@
-﻿using PlgxUnpacker.Helpers;
-using PlgxUnpacker.Configuration;
+﻿using PlgxUnpacker.Configuration;
+using PlgxUnpacker.Extensions;
 using PlgxUnpacker.FileAssociation;
+using PlgxUnpacker.Helpers;
 using PlgxUnpacker.Windows;
 using System;
 using System.ComponentModel;
@@ -26,103 +27,98 @@ namespace PlgxUnpacker
             checkBoxShowOpenFileMenuItem.Checked = ShellContextMenuHelper.IsShellContextMenuOpenFileCommandSet(Settings.ApplicationName);
             checkBoxShowUnpackFileHereMenuItem.Checked = ShellContextMenuHelper.IsShellContextMenuUnpackFileHereCommandSet(Settings.ApplicationName);
             checkBoxShowIcons.Checked = ShellContextMenuHelper.IsShellContextMenuIconSet(Settings.ApplicationName);
-            checkBoxShowIcons.Enabled = false;
-
-            checkBoxEnableWindowsShellIntegration.Checked = checkBoxShowOpenFileMenuItem.Checked || checkBoxShowUnpackFileHereMenuItem.Checked || checkBoxShowIcons.Checked;
             checkBoxAssociateWithPlgxFiles.Checked = FileAssociationHelper.IsExtensionRegistered(Settings.ApplicationName, PlgxFile.Extension);
 
-            // Update UI controls state based on the current settings.
-            // checkBoxShowIcons.Enabled = checkBoxEnableWindowsShellIntegration.Checked;
-            checkBoxShowOpenFileMenuItem.Enabled = checkBoxEnableWindowsShellIntegration.Checked;
-            checkBoxShowUnpackFileHereMenuItem.Enabled = checkBoxEnableWindowsShellIntegration.Checked;
+            if (checkBoxShowOpenFileMenuItem.Checked)
+            {
+                checkBoxShowOpenFileMenuItem.CheckState =
+                     ShellContextMenuHelper.IsShellContextMenuOpenFileCommandSetForApplicationPath(Settings.ApplicationName, AssemblyUtils.GetApplicationPath())
+                        ? CheckState.Checked
+                        : CheckState.Indeterminate;
+            }
+
+            if (checkBoxShowUnpackFileHereMenuItem.Checked)
+            {
+                checkBoxShowUnpackFileHereMenuItem.CheckState =
+                     ShellContextMenuHelper.IsShellContextMenuUnpackFileHereCommandSetForApplicationPath(Settings.ApplicationName, AssemblyUtils.GetApplicationPath())
+                        ? CheckState.Checked
+                        : CheckState.Indeterminate;
+            }
+
+            if (checkBoxAssociateWithPlgxFiles.Checked)
+            {
+                checkBoxAssociateWithPlgxFiles.CheckState =
+                    FileAssociationHelper.IsExtensionRegisteredForApplicationPath(Settings.ApplicationName, AssemblyUtils.GetApplicationPath(), PlgxFile.Extension)
+                        ? CheckState.Checked
+                        : CheckState.Indeterminate;
+            }
 
             // Decorate the "OK" button with an UAC shield.
             if (EnvironmentUtils.IsAtLeastWindowsVista())
             {
                 NativeMethods.SetButtonShield(buttonOK, true);
             }
-            else
-            {
-                checkBoxShowIcons.Enabled = false;
-            }
 
-            // Add event handlers.
-            checkBoxEnableWindowsShellIntegration.CheckedChanged += CheckBoxIntegrateIntoShell_CheckedChanged;
-        }
-
-        private void CheckBoxIntegrateIntoShell_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxEnableWindowsShellIntegration.Checked)
-            {
-                checkBoxShowOpenFileMenuItem.Checked = ShellContextMenuHelper.IsShellContextMenuOpenFileCommandSet(Settings.ApplicationName);
-                checkBoxShowUnpackFileHereMenuItem.Checked = ShellContextMenuHelper.IsShellContextMenuUnpackFileHereCommandSet(Settings.ApplicationName);
-                checkBoxShowIcons.Checked = ShellContextMenuHelper.IsShellContextMenuIconSet(Settings.ApplicationName);
-                checkBoxShowIcons.Enabled = false;
-
-                checkBoxShowOpenFileMenuItem.Enabled = true;
-                checkBoxShowUnpackFileHereMenuItem.Enabled = true;
-
-                if (EnvironmentUtils.IsAtLeastWindowsVista())
-                {
-                    // checkBoxShowIcons.Enabled = true;
-                }
-            }
-            else
-            {
-                checkBoxShowOpenFileMenuItem.Checked = false;
-                checkBoxShowUnpackFileHereMenuItem.Checked = false;
-                checkBoxShowIcons.Checked = false;
-            }
+            ToggleCheckBoxShowIcons();
         }
 
         private void ButtonOK_Click(object sender, EventArgs e)
         {
-            bool isProcessElevationCanceled = false;
-
             var options = new RegisterOptions
             {
-                IntegrateIntoShell = checkBoxEnableWindowsShellIntegration.Checked,
-                ShowOpenFileMenuEntry = checkBoxShowOpenFileMenuItem.Checked,
-                ShowUnpackFileHereMenuEntry = checkBoxShowUnpackFileHereMenuItem.Checked,
-                ShowIcons = checkBoxShowIcons.Checked,
-                AssociateWithPlgxFiles = checkBoxAssociateWithPlgxFiles.Checked,
+                ShowOpenFileMenuEntry = checkBoxShowOpenFileMenuItem.CheckState.ToBool(),
+                ShowUnpackFileHereMenuEntry = checkBoxShowUnpackFileHereMenuItem.CheckState.ToBool(),
+                ShowIcon = checkBoxShowIcons.CheckState.ToBool(),
+                AssociateWithPlgxFiles = checkBoxAssociateWithPlgxFiles.CheckState.ToBool(),
             };
 
             if (NativeMethods.IsUserAnAdmin())
             {
                 Program.Register(options);
+                Close();
+                return;
             }
-            else
+
+            RegisterOptionsWithElevatedProcess(options);
+        }
+
+        private void ButtonCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void RegisterOptionsWithElevatedProcess(RegisterOptions registerOptions)
+        {
+            bool isProcessElevationCanceled = false;
+
+            Process process = null;
+            try
             {
-                Process process = null;
-                try
+                process = new Process();
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.FileName = AssemblyUtils.GetApplicationPath();
+                process.StartInfo.Arguments = registerOptions.ToArguments();
+                process.StartInfo.Verb = "runas";
+                process.Start();
+                process.WaitForExit();
+            }
+            catch (Win32Exception ex)
+            {
+                // ERROR_CANCELLED: "The operation was canceled by the user".
+                if (ex.NativeErrorCode == 1223)
                 {
-                    process = new Process();
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.FileName = AssemblyUtils.GetApplicationPath();
-                    process.StartInfo.Arguments = options.ToArguments();
-                    process.StartInfo.Verb = "runas";
-                    process.Start();
-                    process.WaitForExit();
+                    isProcessElevationCanceled = true;
                 }
-                catch (Win32Exception ex)
+                else
                 {
-                    // ERROR_CANCELLED: "The operation was canceled by the user".
-                    if (ex.NativeErrorCode == 1223)
-                    {
-                        isProcessElevationCanceled = true;
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
-                finally
+            }
+            finally
+            {
+                if (process != null)
                 {
-                    if (process != null)
-                    {
-                        process.Dispose();
-                    }
+                    process.Dispose();
                 }
             }
 
@@ -132,9 +128,36 @@ namespace PlgxUnpacker
             }
         }
 
-        private void ButtonCancel_Click(object sender, EventArgs e)
+        private void CheckBoxShowOpenFileMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            Close();
+            ToggleCheckBoxShowIcons();
+            ToggleCheckBoxShowIconsChecked();
+        }
+
+        private void CheckBoxShowUnpackFileHereMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            ToggleCheckBoxShowIcons();
+            ToggleCheckBoxShowIconsChecked();
+        }
+
+        private void ToggleCheckBoxShowIcons()
+        {
+            if (EnvironmentUtils.IsAtLeastWindowsVista())
+            {
+                checkBoxShowIcons.Enabled = checkBoxShowOpenFileMenuItem.IsChecked() || checkBoxShowUnpackFileHereMenuItem.IsChecked();
+            }
+            else
+            {
+                checkBoxShowIcons.Enabled = false;
+            }
+        }
+
+        private void ToggleCheckBoxShowIconsChecked()
+        {
+            if (!checkBoxShowOpenFileMenuItem.Checked && !checkBoxShowUnpackFileHereMenuItem.Checked)
+            {
+                checkBoxShowIcons.Checked = false;
+            }
         }
     }
 }

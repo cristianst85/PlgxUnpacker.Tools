@@ -2,9 +2,9 @@
 
 namespace PlgxUnpacker.Windows
 {
-    public static class ShellContextMenuHelper
+    internal static class ShellContextMenuHelper
     {
-        public static bool IsShellContextMenuOpenFileCommandSet(string applicationName)
+        internal static bool IsShellContextMenuOpenFileCommandSet(string applicationName)
         {
             using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\1OpenFile\command", applicationName), false))
             {
@@ -12,7 +12,16 @@ namespace PlgxUnpacker.Windows
             }
         }
 
-        public static void CreateOrUpdateShellContextMenuOpenFileCommand(string applicationName, string applicationPath)
+        internal static bool IsShellContextMenuOpenFileCommandSetForApplicationPath(string applicationName, string applicationPath)
+        {
+            using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\1OpenFile\command", applicationName), false))
+            {
+                var commandValue = registryKey?.GetValue(null)?.ToString();
+                return commandValue == string.Format(@"""{0}"" --openFile ""%1""", applicationPath);
+            }
+        }
+
+        internal static void CreateOrUpdateShellContextMenuOpenFileCommand(string applicationName, string applicationPath)
         {
             var commandRegistryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\1OpenFile\command", applicationName), true);
 
@@ -31,7 +40,7 @@ namespace PlgxUnpacker.Windows
             }
         }
 
-        public static void DeleteShellContextMenuOpenFileCommand(string applicationName)
+        internal static void DeleteShellContextMenuOpenFileCommand(string applicationName)
         {
             using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\1OpenFile", applicationName), true))
             {
@@ -53,7 +62,7 @@ namespace PlgxUnpacker.Windows
             }
         }
 
-        public static bool IsShellContextMenuUnpackFileHereCommandSet(string applicationName)
+        internal static bool IsShellContextMenuUnpackFileHereCommandSet(string applicationName)
         {
             using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\2UnpackFileHere\command", applicationName), false))
             {
@@ -61,7 +70,16 @@ namespace PlgxUnpacker.Windows
             }
         }
 
-        public static void CreateOrUpdateShellExtensionUnpackFileHereCommand(string applicationName, string applicationPath)
+        internal static bool IsShellContextMenuUnpackFileHereCommandSetForApplicationPath(string applicationName, string applicationPath)
+        {
+            using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\2UnpackFileHere\command", applicationName), false))
+            {
+                var commandValue = registryKey?.GetValue(null)?.ToString();
+                return commandValue == string.Format(@"""{0}"" --unpackFileHere ""%1""", applicationPath);
+            }
+        }
+
+        internal static void CreateOrUpdateShellExtensionUnpackFileHereCommand(string applicationName, string applicationPath)
         {
             var commandRegistryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\2UnpackFileHere\command", applicationName), true);
 
@@ -80,7 +98,7 @@ namespace PlgxUnpacker.Windows
             }
         }
 
-        public static void DeleteShellContextMenuUnpackFileHereCommand(string applicationName)
+        internal static void DeleteShellContextMenuUnpackFileHereCommand(string applicationName)
         {
             using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\2UnpackFileHere", applicationName), true))
             {
@@ -102,7 +120,7 @@ namespace PlgxUnpacker.Windows
             }
         }
 
-        public static void CreateOrUpdateShellContextMenu(string applicationName, string applicationPath)
+        internal static void CreateOrUpdateShellContextMenu(string applicationName, string applicationPath)
         {
             var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\", applicationName), true);
 
@@ -122,7 +140,7 @@ namespace PlgxUnpacker.Windows
             registryKey.Dispose();
         }
 
-        public static void DeleteShellContextMenu(string applicationName)
+        internal static void DeleteShellContextMenu(string applicationName)
         {
             using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}", applicationName), true))
             {
@@ -134,7 +152,7 @@ namespace PlgxUnpacker.Windows
             }
         }
 
-        public static bool IsShellContextMenuIconSet(string applicationName)
+        internal static bool IsShellContextMenuIconSet(string applicationName)
         {
             using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}", applicationName), false))
             {
@@ -148,7 +166,7 @@ namespace PlgxUnpacker.Windows
         /// <param name="applicationName"></param>
         /// <param name="applicationPath"></param>
         /// <param name="iconPath"></param>
-        public static void CreateOrUpdateShellContextMenuIcon(string applicationName, string applicationPath, string iconPath = null)
+        internal static void CreateOrUpdateShellContextMenuIcon(string applicationName, string applicationPath, string iconPath = null)
         {
             var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}", applicationName), true);
 
@@ -167,7 +185,7 @@ namespace PlgxUnpacker.Windows
             registryKey.Dispose();
         }
 
-        public static void DeleteShellContextMenuIcon(string applicationName)
+        internal static void DeleteShellContextMenuIcon(string applicationName)
         {
             using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}", applicationName), true))
             {

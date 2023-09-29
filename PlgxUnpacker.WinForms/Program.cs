@@ -1,10 +1,12 @@
 ﻿using PlgxUnpacker.Configuration;
+using PlgxUnpacker.Extensions;
 using PlgxUnpacker.FileAssociation;
 using PlgxUnpacker.Helpers;
 using PlgxUnpacker.Windows;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 using PlgxFile = PlgxUnpackerNet.PlgxFile;
@@ -42,21 +44,26 @@ namespace PlgxUnpacker
 
             var arguments = new List<string>(args);
 
-            if (arguments.Contains("--unregister") || arguments.Contains("--register") || arguments.Contains("--extensions"))
+            if (RegisterOptions.All.Intersect(arguments).Any())
             {
-                var options = RegisterOptions.ParseFromArguments(arguments);
+                try
+                {
+                    var options = RegisterOptions.ParseFromArguments(arguments);
 
-                // Check if the current application has elevated administrator permissions.
-                if (NativeMethods.IsUserAnAdmin())
-                {
-                    Register(options);
-                }
-                else
-                {
+                    // Check if the current application has elevated administrator permissions.
+                    if (NativeMethods.IsUserAnAdmin())
+                    {
+                        Register(options);
+                        Environment.Exit(0);
+                    }
+
                     throw new Exception("Elevated administrator permissions are required to perform this operation.");
                 }
-
-                return;
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", Settings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Environment.Exit(0);
+                }
             }
             else if (arguments.Contains("--openFile") || arguments.Contains("--unpackFileHere"))
             {
@@ -69,7 +76,7 @@ namespace PlgxUnpacker
 
                     Application.Run(new FormMain(options));
                 }
-                else if  (arguments.Count == 2 && arguments[0] == "--unpackFileHere")
+                else if (arguments.Count == 2 && arguments[0] == "--unpackFileHere")
                 {
                     var filePath = arguments[1];
                     var fileName = Path.GetFileNameWithoutExtension(filePath);
@@ -100,54 +107,48 @@ namespace PlgxUnpacker
             var applicationName = Settings.ApplicationName;
             var applicationPath = AssemblyUtils.GetApplicationPath();
 
-            if (options.IntegrateIntoShell)
+            if (options.ShowOpenFileMenuEntry.IsTrue() || options.ShowUnpackFileHereMenuEntry.IsTrue())
             {
-                if (options.ShowOpenFileMenuEntry || options.ShowUnpackFileHereMenuEntry)
+                ShellContextMenuHelper.CreateOrUpdateShellContextMenu(applicationName, applicationPath);
+
+                if (options.ShowOpenFileMenuEntry.IsTrue())
                 {
-                    ShellContextMenuHelper.CreateOrUpdateShellContextMenu(applicationName, applicationPath);
-
-                    if (options.ShowOpenFileMenuEntry)
-                    {
-                        ShellContextMenuHelper.CreateOrUpdateShellContextMenuOpenFileCommand(applicationName, applicationPath);
-                    }
-                    else
-                    {
-                        ShellContextMenuHelper.DeleteShellContextMenuOpenFileCommand(applicationName);
-                    }
-
-                    if (options.ShowUnpackFileHereMenuEntry)
-                    {
-                        ShellContextMenuHelper.CreateOrUpdateShellExtensionUnpackFileHereCommand(applicationName, applicationPath);
-                    }
-                    else
-                    {
-                        ShellContextMenuHelper.DeleteShellContextMenuUnpackFileHereCommand(applicationName);
-                    }
-
-                    if (options.ShowIcons)
-                    {
-                        ShellContextMenuHelper.CreateOrUpdateShellContextMenuIcon(applicationName, applicationPath);
-                    }
-                    else
-                    {
-                        ShellContextMenuHelper.DeleteShellContextMenuIcon(applicationName);
-                    }
+                    ShellContextMenuHelper.CreateOrUpdateShellContextMenuOpenFileCommand(applicationName, applicationPath);
                 }
-                else
+                else if (options.ShowOpenFileMenuEntry.IsFalse())
                 {
-                    ShellContextMenuHelper.DeleteShellContextMenu(applicationName);
+                    ShellContextMenuHelper.DeleteShellContextMenuOpenFileCommand(applicationName);
+                }
+
+                if (options.ShowUnpackFileHereMenuEntry.IsTrue())
+                {
+                    ShellContextMenuHelper.CreateOrUpdateShellExtensionUnpackFileHereCommand(applicationName, applicationPath);
+                }
+                else if (options.ShowUnpackFileHereMenuEntry.IsFalse())
+                {
+                    ShellContextMenuHelper.DeleteShellContextMenuUnpackFileHereCommand(applicationName);
+                }
+
+                if (options.ShowIcon.IsTrue())
+                {
+                    ShellContextMenuHelper.CreateOrUpdateShellContextMenuIcon(applicationName, applicationPath);
+                }
+                else if (options.ShowIcon.IsFalse())
+                {
+                    ShellContextMenuHelper.DeleteShellContextMenuIcon(applicationName);
                 }
             }
-            else
+
+            if (options.ShowOpenFileMenuEntry.IsFalse() && options.ShowUnpackFileHereMenuEntry.IsFalse())
             {
                 ShellContextMenuHelper.DeleteShellContextMenu(applicationName);
             }
 
-            if (options.AssociateWithPlgxFiles)
+            if (options.AssociateWithPlgxFiles.IsTrue())
             {
                 FileAssociationHelper.RegisterExtension(applicationName, applicationPath, PlgxFile.Extension);
             }
-            else
+            else if (options.AssociateWithPlgxFiles.IsFalse())
             {
                 FileAssociationHelper.UnregisterExtension(applicationName, PlgxFile.Extension);
             }

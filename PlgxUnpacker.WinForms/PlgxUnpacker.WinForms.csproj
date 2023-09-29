@@ -51,6 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\StatusStripRenderer.cs" />
+    <Compile Include="Extensions\BoolExtensions.cs" />
+    <Compile Include="Extensions\CheckBoxExtensions.cs" />
+    <Compile Include="Extensions\CheckStateExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Helpers\AssemblyUtils.cs" />
     <Compile Include="Helpers\EnvironmentUtils.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />

@@ -33,6 +33,19 @@ namespace PlgxUnpacker.FileAssociation
             }
         }
 
+        public ProgramVerbCommand Read(string programVerb)
+        {
+            using (var registryKey = Registry.ClassesRoot.OpenSubKey($"{ProgramId}\\shell\\{programVerb}\\command"))
+            {
+                if (registryKey == null)
+                {
+                    return null;
+                }
+
+                return new ProgramVerbCommand(programVerb, registryKey.GetValue(null).ToString());
+            }
+        }
+
         public void Create(string description, ProgramVerbCommand programVerbCommand)
         {
             if (description == null)
