@@ -31,7 +31,7 @@ namespace PlgxUnpacker
             {
                 if (EnvironmentUtils.IsAtLeastWindows10())
                 {
-                    NativeMethods.SetProcessDpiAwareness(NativeMethods.ProcessDpiAwareness.ProcessSystemDpiAware);
+                    NativeMethods.SetProcessDpiAwareness(NativeMethods.ProcessDpiAwareness.ProcessPerMonitorDpiAware);
                 }
                 else if (EnvironmentUtils.IsAtLeastWindowsVista())
                 {
