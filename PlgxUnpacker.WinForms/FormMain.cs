@@ -271,7 +271,7 @@ namespace PlgxUnpacker
             this.InvokeIfRequired(() =>
             {
                 buttonUnpack.Enabled = enabled;
-                buttonUnpack.ToogleText();
+                buttonUnpack.ToggleText();
             });
         }
 

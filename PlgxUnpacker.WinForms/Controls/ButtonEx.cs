@@ -14,7 +14,7 @@ namespace PlgxUnpacker.Controls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public virtual string TextToggle { get; set; }
 
-        public void ToogleText()
+        public void ToggleText()
         {
             var text = TextToggle;
             TextToggle = Text;
