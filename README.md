@@ -3,7 +3,7 @@
 A collection of tools for unpacking [KeePass](https://keepass.info/) [PLGX files](https://keepass.info/help/v2_dev/plg_index.html#plgx).
 
 ## Tools
-* __PlgxUnpacker__ - a Windows tool for unpacking [KeePass](https://keepass.info/) [PLGX files](https://keepass.info/help/v2_dev/plg_index.html#plgx).
+* __PlgxUnpacker__ - a Windows GUI tool for unpacking [KeePass](https://keepass.info/) [PLGX files](https://keepass.info/help/v2_dev/plg_index.html#plgx). It can integrate into Shell Context Menu and associate with PLGX files. No installation is required.
 
 ## Requirements
 
