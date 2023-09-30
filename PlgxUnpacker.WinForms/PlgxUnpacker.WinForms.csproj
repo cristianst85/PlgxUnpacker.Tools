@@ -180,6 +180,7 @@
     <Content Include="Resources\Menus\information.png" />
     <Content Include="Resources\Menus\readme.html" />
     <Content Include="Resources\Menus\readme.txt" />
+    <Content Include="Resources\Menus\world.png" />
     <Content Include="Resources\Menus\wrench.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

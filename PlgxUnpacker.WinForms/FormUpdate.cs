@@ -37,7 +37,7 @@ namespace PlgxUnpacker
         private void CheckForUpdates()
         {
             UpdateStatusImage(Properties.Resources.information);
-            UpdateStatusText("Searching for updates, please wait a few seconds...");
+            UpdateStatusText("Checking for updates, please wait a few seconds...");
             UpdateButtonState(buttonCheck, false);
             UpdateButtonState(buttonGoToDownloadPage, false);
 
