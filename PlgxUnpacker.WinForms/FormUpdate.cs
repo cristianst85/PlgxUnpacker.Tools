@@ -50,7 +50,7 @@ namespace PlgxUnpacker
                 {
                     UpdateStatusText($"A new version of PlgxUnpacker ({updateInfo.Version}) is available.");
 
-                    if (updateInfo.DownloadPage.IsNotNullOrEmpty())
+                    if (updateInfo.DownloadPageUrl.IsNotNullOrEmpty())
                     {
                         UpdateButtonState(buttonGoToDownloadPage, true);
                     }
@@ -114,9 +114,9 @@ namespace PlgxUnpacker
 
         private void ButtonGoToDownloadPage_Click(object sender, EventArgs e)
         {
-            if (updateInfo.DownloadPage.IsNotNullOrEmpty())
+            if (updateInfo.DownloadPageUrl.IsNotNullOrEmpty())
             {
-                Process.Start(updateInfo.DownloadPage);
+                Process.Start(updateInfo.DownloadPageUrl);
             }
         }
 

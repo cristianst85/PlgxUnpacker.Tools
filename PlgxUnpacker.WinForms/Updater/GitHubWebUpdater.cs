@@ -2,7 +2,6 @@
 using PlgxUnpacker.Helpers;
 using PlgxUnpacker.Updater.GitHubApi;
 using System;
-using System.IO;
 
 namespace PlgxUnpacker.Updater
 {
@@ -25,13 +24,13 @@ namespace PlgxUnpacker.Updater
 
             var updateInfo = new UpdateInfo()
             {
-                Version = new Version(release.TagName.TrimStart('v').Trim()),
-                DownloadPage = release.HtmlUrl
+                Version = new Version(release.TagName),
+                DownloadPageUrl = release.HtmlUrl
             };
 
             foreach (var asset in release.Assets)
             {
-                if (asset.Name.StartsWith(Configuration.Settings.ApplicationName) && Path.GetExtension(asset.Name).Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(asset.Name, $"{Configuration.Settings.ApplicationName}-{release.TagName}.zip"))
                 {
                     updateInfo.DownloadUrl = asset.BrowserDownloadUrl;
                     break;

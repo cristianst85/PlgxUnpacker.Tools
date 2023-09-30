@@ -6,7 +6,7 @@ namespace PlgxUnpacker.Updater
     {
         public Version Version { get; set; }
 
-        public string DownloadPage { get; set; }
+        public string DownloadPageUrl { get; set; }
 
         public string DownloadUrl { get; set; }
 
