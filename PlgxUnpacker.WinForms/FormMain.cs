@@ -323,7 +323,7 @@ namespace PlgxUnpacker
                 openFileDialog.CheckFileExists = true;
                 openFileDialog.CheckPathExists = true;
                 openFileDialog.Title = Properties.Resources.OpenPlgxFile;
-                openFileDialog.Filter = "*.plgx|*.plgx";
+                openFileDialog.Filter = "KeePass PLGX File (*.plgx)|*.plgx";
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
