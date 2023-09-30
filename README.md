@@ -30,6 +30,7 @@ You can download compiled binaries from [here](https://github.com/cristianst85/P
 
 * The source code in this repository is released under the GNU GPLv2 or later license. See the [bundled LICENSE](https://github.com/cristianst85/PlgxUnpacker.Tools/blob/master/LICENSE) file for details.
 * Includes third party library [PlgxUnpackerNet](https://github.com/cristianst85/PlgxUnpacker) licensed under MIT License.
+* Application icon is from the Cat Power icon set by [Denis Sazhin](https://iconka.com/portfolio/cat-power/) licensed under [Creative Commons Attribution 3.0 Unported](https://creativecommons.org/licenses/by/3.0/).
 * Menu icons are from the Silk icon set by [Mark James](http://www.famfamfam.com/lab/icons/silk/) licensed under [Creative Commons Attribution 2.5](http://creativecommons.org/licenses/by/2.5/).
 
 ## Related Projects

@@ -39,6 +39,9 @@
   <PropertyGroup>
     <StartupObject>PlgxUnpacker.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>PlgxUnpacker.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PlgxUnpackerNet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PlgxUnpacker.0.2.0\lib\net45\PlgxUnpackerNet.dll</HintPath>
@@ -140,6 +143,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="PlgxUnpacker.ico" />
+    <Content Include="Resources\Icons\box_cat.ico" />
+    <Content Include="Resources\Icons\box_cat.png" />
+    <Content Include="Resources\Icons\readme.txt" />
     <Content Include="Resources\Menus\door_out.png" />
     <Content Include="Resources\Menus\folder.png" />
     <Content Include="Resources\Menus\folder_page_white.png" />

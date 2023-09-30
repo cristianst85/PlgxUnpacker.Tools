@@ -239,6 +239,7 @@ namespace PlgxUnpacker
             {
                 this.InvokeIfRequired(() =>
                 {
+                    formConfirmFileOverwrite.Icon = Icon;
                     formConfirmFileOverwrite.ShowDialog(this);
                 });
 
@@ -350,6 +351,7 @@ namespace PlgxUnpacker
         {
             using (var formOptions = new FormOptions())
             {
+                formOptions.Icon = Icon;
                 formOptions.ShowDialog(this);
             }
         }
@@ -359,6 +361,7 @@ namespace PlgxUnpacker
             using (var formAbout = new FormAbout())
             {
                 formAbout.Text = formAbout.Text.Replace("{title}", Application.ProductName);
+                formAbout.Icon = Icon;
                 formAbout.Update();
 
                 formAbout.ShowDialog(this);
