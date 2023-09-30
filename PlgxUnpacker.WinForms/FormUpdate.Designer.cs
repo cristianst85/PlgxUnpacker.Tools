@@ -50,13 +50,13 @@
             // 
             this.labelStatus.Location = new System.Drawing.Point(30, 17);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(302, 52);
+            this.labelStatus.Size = new System.Drawing.Size(302, 47);
             this.labelStatus.TabIndex = 1;
             // 
             // buttonClose
             // 
             this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonClose.Location = new System.Drawing.Point(257, 72);
+            this.buttonClose.Location = new System.Drawing.Point(257, 76);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 3;
@@ -66,7 +66,7 @@
             // 
             // buttonGoToDownloadPage
             // 
-            this.buttonGoToDownloadPage.Location = new System.Drawing.Point(114, 72);
+            this.buttonGoToDownloadPage.Location = new System.Drawing.Point(114, 76);
             this.buttonGoToDownloadPage.Name = "buttonGoToDownloadPage";
             this.buttonGoToDownloadPage.Size = new System.Drawing.Size(120, 23);
             this.buttonGoToDownloadPage.TabIndex = 14;
@@ -76,7 +76,7 @@
             // 
             // buttonCheck
             // 
-            this.buttonCheck.Location = new System.Drawing.Point(33, 72);
+            this.buttonCheck.Location = new System.Drawing.Point(33, 76);
             this.buttonCheck.Name = "buttonCheck";
             this.buttonCheck.Size = new System.Drawing.Size(75, 23);
             this.buttonCheck.TabIndex = 13;
