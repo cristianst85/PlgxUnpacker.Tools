@@ -151,8 +151,8 @@
             this.buttonUnpack.Size = new System.Drawing.Size(82, 82);
             this.buttonUnpack.TabIndex = 8;
             this.buttonUnpack.Tag = "";
-            this.buttonUnpack.Text = "Unpack...";
-            this.buttonUnpack.TextToggle = "Cancel";
+            this.buttonUnpack.Text = "&Unpack...";
+            this.buttonUnpack.TextToggle = "&Cancel";
             this.buttonUnpack.UseVisualStyleBackColor = true;
             this.buttonUnpack.Click += new System.EventHandler(this.ButtonUnpack_Click);
             // 
