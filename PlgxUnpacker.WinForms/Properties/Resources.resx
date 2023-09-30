@@ -163,4 +163,7 @@
   <data name="UnpackingInterrupted" xml:space="preserve">
     <value>Unpacking was interrupted.</value>
   </data>
+  <data name="ShowIconsTextWindowsVistaOrLater" xml:space="preserve">
+    <value>Show icons (only in Windows Vista or later)</value>
+  </data>
 </root>

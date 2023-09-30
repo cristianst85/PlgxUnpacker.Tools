@@ -119,9 +119,9 @@
             this.checkBoxShowIcons.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
             this.checkBoxShowIcons.Location = new System.Drawing.Point(19, 65);
             this.checkBoxShowIcons.Name = "checkBoxShowIcons";
-            this.checkBoxShowIcons.Size = new System.Drawing.Size(228, 17);
+            this.checkBoxShowIcons.Size = new System.Drawing.Size(81, 17);
             this.checkBoxShowIcons.TabIndex = 4;
-            this.checkBoxShowIcons.Text = "Show icons (only in Windows Vista or later)";
+            this.checkBoxShowIcons.Text = "Show icons";
             this.checkBoxShowIcons.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.checkBoxShowIcons.ThreeState = true;
             this.checkBoxShowIcons.UseVisualStyleBackColor = true;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using PlgxUnpacker.Extensions;
 
 namespace PlgxUnpacker.Windows
 {
@@ -21,7 +22,7 @@ namespace PlgxUnpacker.Windows
             }
         }
 
-        internal static void CreateOrUpdateShellContextMenuOpenFileCommand(string applicationName, string applicationPath)
+        internal static void CreateOrUpdateShellContextMenuOpenFileCommand(string applicationName, string applicationPath, bool? setIcon)
         {
             var commandRegistryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\1OpenFile\command", applicationName), true);
 
@@ -37,6 +38,15 @@ namespace PlgxUnpacker.Windows
             using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\1OpenFile", applicationName), true))
             {
                 registryKey.SetValue("MUIVerb", "Open File...");
+
+                if (setIcon.IsTrue())
+                {
+                    registryKey.SetValue("Icon", string.Format(@"""{0}"",0", applicationPath), RegistryValueKind.ExpandString);
+                }
+                else if (setIcon.IsFalse())
+                {
+                    registryKey.DeleteValue("Icon", false);
+                }
             }
         }
 
@@ -47,6 +57,7 @@ namespace PlgxUnpacker.Windows
                 if (registryKey != null)
                 {
                     registryKey.DeleteValue("MUIVerb", false);
+                    registryKey.DeleteValue("Icon", false);
                     registryKey.DeleteSubKey("command", false);
                     registryKey.Close();
                 }
@@ -79,7 +90,7 @@ namespace PlgxUnpacker.Windows
             }
         }
 
-        internal static void CreateOrUpdateShellExtensionUnpackFileHereCommand(string applicationName, string applicationPath)
+        internal static void CreateOrUpdateShellExtensionUnpackFileHereCommand(string applicationName, string applicationPath, bool? setIcon)
         {
             var commandRegistryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\2UnpackFileHere\command", applicationName), true);
 
@@ -95,6 +106,15 @@ namespace PlgxUnpacker.Windows
             using (var registryKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"*\shell\{0}\shell\2UnpackFileHere", applicationName), true))
             {
                 registryKey.SetValue("MUIVerb", "Unpack File Here");
+
+                if (setIcon.IsTrue())
+                {
+                    registryKey.SetValue("Icon", string.Format(@"""{0}"",0", applicationPath), RegistryValueKind.ExpandString);
+                }
+                else if (setIcon.IsFalse())
+                {
+                    registryKey.DeleteValue("Icon", false);
+                }
             }
         }
 
@@ -105,6 +125,7 @@ namespace PlgxUnpacker.Windows
                 if (registryKey != null)
                 {
                     registryKey.DeleteValue("MUIVerb", false);
+                    registryKey.DeleteValue("Icon", false);
                     registryKey.DeleteSubKey("command", false);
                     registryKey.Close();
                 }

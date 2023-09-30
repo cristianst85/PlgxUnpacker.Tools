@@ -149,6 +149,7 @@ namespace PlgxUnpacker
             else
             {
                 checkBoxShowIcons.Enabled = false;
+                checkBoxShowIcons.Text = Properties.Resources.ShowIconsTextWindowsVistaOrLater;
             }
         }
 

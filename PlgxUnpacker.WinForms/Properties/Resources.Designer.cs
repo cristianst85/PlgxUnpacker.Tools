@@ -164,6 +164,15 @@ namespace PlgxUnpacker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show icons (only in Windows Vista or later).
+        /// </summary>
+        internal static string ShowIconsTextWindowsVistaOrLater {
+            get {
+                return ResourceManager.GetString("ShowIconsTextWindowsVistaOrLater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unpacking was completed successfully..
         /// </summary>
         internal static string UnpackingCompleted {

@@ -113,7 +113,7 @@ namespace PlgxUnpacker
 
                 if (options.ShowOpenFileMenuEntry.IsTrue())
                 {
-                    ShellContextMenuHelper.CreateOrUpdateShellContextMenuOpenFileCommand(applicationName, applicationPath);
+                    ShellContextMenuHelper.CreateOrUpdateShellContextMenuOpenFileCommand(applicationName, applicationPath, options.ShowIcon);
                 }
                 else if (options.ShowOpenFileMenuEntry.IsFalse())
                 {
@@ -122,7 +122,7 @@ namespace PlgxUnpacker
 
                 if (options.ShowUnpackFileHereMenuEntry.IsTrue())
                 {
-                    ShellContextMenuHelper.CreateOrUpdateShellExtensionUnpackFileHereCommand(applicationName, applicationPath);
+                    ShellContextMenuHelper.CreateOrUpdateShellExtensionUnpackFileHereCommand(applicationName, applicationPath, options.ShowIcon);
                 }
                 else if (options.ShowUnpackFileHereMenuEntry.IsFalse())
                 {
