@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlgxUnpacker.Extensions;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -30,7 +31,7 @@ namespace PlgxUnpacker.Helpers
         internal static string GetProductVersion(string assemblyName)
         {
             var attributes = Assembly.Load(assemblyName).GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
-            return attributes.Length == 0 ? GetVersion(assemblyName).ToString() : ((AssemblyInformationalVersionAttribute)attributes[0]).InformationalVersion;
+            return attributes.Length == 0 ? GetVersion(assemblyName).ToString() : ((AssemblyInformationalVersionAttribute)attributes[0]).GetInformationalVersion(true);
         }
 
         internal static Version GetVersion(string assemblyName)

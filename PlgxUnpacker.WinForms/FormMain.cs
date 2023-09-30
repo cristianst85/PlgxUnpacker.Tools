@@ -417,5 +417,15 @@ namespace PlgxUnpacker
                 }
             }
         }
+
+        private void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var formUpdate = new FormUpdate())
+            {
+                formUpdate.Update();
+                formUpdate.Icon = Icon;
+                formUpdate.ShowDialog(this);
+            }
+        }
     }
 }

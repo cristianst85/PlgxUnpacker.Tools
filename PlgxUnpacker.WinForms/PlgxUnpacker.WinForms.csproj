@@ -43,16 +43,26 @@
     <ApplicationIcon>PlgxUnpacker.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <EmbedAssembly>true</EmbedAssembly>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PlgxUnpackerNet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PlgxUnpacker.0.2.0\lib\net45\PlgxUnpackerNet.dll</HintPath>
       <EmbedAssembly>true</EmbedAssembly>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commons\Formatting\TextStyleFormatter.cs" />
+    <Compile Include="Extensions\AssemblyInformationalVersionAttributeExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileOverwritePromptResult.cs" />
     <Compile Include="Controls\StatusStripRenderer.cs" />
     <Compile Include="Extensions\BoolExtensions.cs" />
@@ -66,6 +76,12 @@
     <Compile Include="FormConfirmFileOverwrite.Designer.cs">
       <DependentUpon>FormConfirmFileOverwrite.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUpdate.Designer.cs">
+      <DependentUpon>FormUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\AssemblyUtils.cs" />
     <Compile Include="Helpers\EnvironmentUtils.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />
@@ -74,7 +90,14 @@
     <Compile Include="Controls\ButtonEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Helpers\ServicePointManagerHelper.cs" />
     <Compile Include="Properties\GeneratedAssemblyInfo.cs" />
+    <Compile Include="Updater\GitHubApi\Release.cs" />
+    <Compile Include="Updater\GitHubApi\ReleaseAsset.cs" />
+    <Compile Include="Updater\GitHubWebUpdater.cs" />
+    <Compile Include="Updater\IWebUpdater.cs" />
+    <Compile Include="Updater\UpdateInfo.cs" />
+    <Compile Include="Updater\WebUpdater.cs" />
     <Compile Include="Worker\EventArguments\PlgxFileUnpackingErrorEventArgs.cs" />
     <Compile Include="Worker\EventArguments\PlgxFileEntryUnpackedEventArgs.cs" />
     <Compile Include="FormAbout.cs">
@@ -127,6 +150,9 @@
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUpdate.resx">
+      <DependentUpon>FormUpdate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -148,6 +174,7 @@
     <Content Include="Resources\Icons\box_cat.png" />
     <Content Include="Resources\Icons\readme.txt" />
     <Content Include="Resources\Menus\door_out.png" />
+    <Content Include="Resources\Menus\exclamation.png" />
     <Content Include="Resources\Menus\folder.png" />
     <Content Include="Resources\Menus\folder_page_white.png" />
     <Content Include="Resources\Menus\information.png" />

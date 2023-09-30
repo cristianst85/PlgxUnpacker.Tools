@@ -12,7 +12,8 @@ namespace PlgxUnpacker
             InitializeComponent();
 
             labelVersion.Text = labelVersion.Text.Replace("{version}", AssemblyUtils.GetProductVersion());
-            richTextBoxCopyright.Text = richTextBoxCopyright.Text.Replace("{plgxUnpackerNetLibVersion}", AssemblyUtils.GetProductVersion("PlgxUnpackerNet.dll").ToString());
+            richTextBoxCopyright.Text = richTextBoxCopyright.Text.Replace("{plgxUnpackerNetLibVersion}", AssemblyUtils.GetProductVersion("PlgxUnpackerNet").ToString());
+            richTextBoxCopyright.Text = richTextBoxCopyright.Text.Replace("{newtonsoftJsonLibVersion}", AssemblyUtils.GetProductVersion("Newtonsoft.Json").ToString());
 
             KeyDown += new KeyEventHandler(FormAbout_KeyPress);
 
