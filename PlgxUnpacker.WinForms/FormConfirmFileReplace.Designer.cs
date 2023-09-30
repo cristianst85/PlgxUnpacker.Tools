@@ -1,6 +1,6 @@
 ﻿namespace PlgxUnpacker
 {
-    partial class FormConfirmFileOverwrite
+    partial class FormConfirmFileReplace
     {
         /// <summary>
         /// Required designer variable.
@@ -34,12 +34,14 @@
             this.buttonNo = new System.Windows.Forms.Button();
             this.buttonNoAll = new System.Windows.Forms.Button();
             this.label = new System.Windows.Forms.Label();
+            this.pictureBoxStatus = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStatus)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(220, 110);
+            this.buttonCancel.Location = new System.Drawing.Point(257, 106);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 7;
@@ -49,7 +51,7 @@
             // 
             // buttonYes
             // 
-            this.buttonYes.Location = new System.Drawing.Point(19, 80);
+            this.buttonYes.Location = new System.Drawing.Point(33, 77);
             this.buttonYes.Name = "buttonYes";
             this.buttonYes.Size = new System.Drawing.Size(75, 23);
             this.buttonYes.TabIndex = 3;
@@ -59,7 +61,7 @@
             // 
             // buttonYesAll
             // 
-            this.buttonYesAll.Location = new System.Drawing.Point(100, 80);
+            this.buttonYesAll.Location = new System.Drawing.Point(114, 77);
             this.buttonYesAll.Name = "buttonYesAll";
             this.buttonYesAll.Size = new System.Drawing.Size(75, 23);
             this.buttonYesAll.TabIndex = 4;
@@ -69,7 +71,7 @@
             // 
             // buttonNo
             // 
-            this.buttonNo.Location = new System.Drawing.Point(19, 110);
+            this.buttonNo.Location = new System.Drawing.Point(33, 106);
             this.buttonNo.Name = "buttonNo";
             this.buttonNo.Size = new System.Drawing.Size(75, 23);
             this.buttonNo.TabIndex = 5;
@@ -79,7 +81,7 @@
             // 
             // buttonNoAll
             // 
-            this.buttonNoAll.Location = new System.Drawing.Point(100, 110);
+            this.buttonNoAll.Location = new System.Drawing.Point(114, 106);
             this.buttonNoAll.Name = "buttonNoAll";
             this.buttonNoAll.Size = new System.Drawing.Size(75, 23);
             this.buttonNoAll.TabIndex = 6;
@@ -89,20 +91,31 @@
             // 
             // label
             // 
-            this.label.Location = new System.Drawing.Point(15, 19);
+            this.label.Location = new System.Drawing.Point(30, 17);
             this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(280, 50);
+            this.label.Size = new System.Drawing.Size(302, 48);
             this.label.TabIndex = 2;
-            this.label.Text = "Destination directory already contains a file with the name \'{fileName}\'. Would y" +
-    "ou like to overwrite the existing file?";
+            this.label.Text = "The destination already has a file named \"{0}\". Would you like to replace the exi" +
+    "sting file?";
             // 
-            // FormConfirmFileOverwrite
+            // pictureBoxStatus
+            // 
+            this.pictureBoxStatus.ErrorImage = null;
+            this.pictureBoxStatus.Image = global::PlgxUnpacker.Properties.Resources.error_error;
+            this.pictureBoxStatus.Location = new System.Drawing.Point(13, 16);
+            this.pictureBoxStatus.Name = "pictureBoxStatus";
+            this.pictureBoxStatus.Size = new System.Drawing.Size(16, 16);
+            this.pictureBoxStatus.TabIndex = 13;
+            this.pictureBoxStatus.TabStop = false;
+            // 
+            // FormConfirmFileReplace
             // 
             this.AcceptButton = this.buttonYes;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(314, 151);
+            this.ClientSize = new System.Drawing.Size(344, 141);
+            this.Controls.Add(this.pictureBoxStatus);
             this.Controls.Add(this.label);
             this.Controls.Add(this.buttonNoAll);
             this.Controls.Add(this.buttonNo);
@@ -112,10 +125,11 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormConfirmFileOverwrite";
+            this.Name = "FormConfirmFileReplace";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Confirm File Overwrite";
+            this.Text = "Confirm File Replace";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStatus)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -128,5 +142,6 @@
         private System.Windows.Forms.Button buttonNo;
         private System.Windows.Forms.Button buttonNoAll;
         private System.Windows.Forms.Label label;
+        private System.Windows.Forms.PictureBox pictureBoxStatus;
     }
 }

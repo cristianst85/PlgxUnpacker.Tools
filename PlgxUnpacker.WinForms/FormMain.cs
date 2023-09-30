@@ -178,7 +178,7 @@ namespace PlgxUnpacker
                 plgxFileUnpackerWorker.PlgxFileUnpackingError -= PlgxFileUnpackerProcessor_PlgxFileUnpackingError;
                 plgxFileUnpackerWorker.PlgxFileUnpackingCompleted -= PlgxFileUnpackerProcessor_PlgxFileUnpackingCompleted;
                 plgxFileUnpackerWorker.PlgxFileUnpackingCancelled -= PlgxFileUnpackerProcessor_PlgxFileUnpackingCancelled;
-                plgxFileUnpackerWorker.FileOverwritePromptCallback -= PlgxFileUnpackerProcessor_FileOverwritePromptCallback;
+                plgxFileUnpackerWorker.FileReplacePromptCallback -= PlgxFileUnpackerProcessor_FileReplacePromptCallback;
 
                 plgxFileUnpackerWorker = null;
             }
@@ -189,7 +189,7 @@ namespace PlgxUnpacker
             plgxFileUnpackerWorker.PlgxFileUnpackingError += PlgxFileUnpackerProcessor_PlgxFileUnpackingError;
             plgxFileUnpackerWorker.PlgxFileUnpackingCompleted += PlgxFileUnpackerProcessor_PlgxFileUnpackingCompleted;
             plgxFileUnpackerWorker.PlgxFileUnpackingCancelled += PlgxFileUnpackerProcessor_PlgxFileUnpackingCancelled;
-            plgxFileUnpackerWorker.FileOverwritePromptCallback += PlgxFileUnpackerProcessor_FileOverwritePromptCallback;
+            plgxFileUnpackerWorker.FileReplacePromptCallback += PlgxFileUnpackerProcessor_FileReplacePromptCallback;
 
             await plgxFileUnpackerWorker.Run();
         }
@@ -233,17 +233,17 @@ namespace PlgxUnpacker
             });
         }
 
-        private FileOverwritePromptResult PlgxFileUnpackerProcessor_FileOverwritePromptCallback(object sender, string fileName)
+        private FileReplacePromptResult PlgxFileUnpackerProcessor_FileReplacePromptCallback(object sender, string fileName)
         {
-            using (var formConfirmFileOverwrite = new FormConfirmFileOverwrite(fileName))
+            using (var formConfirmFileReplace = new FormConfirmFileReplace(fileName))
             {
                 this.InvokeIfRequired(() =>
                 {
-                    formConfirmFileOverwrite.Icon = Icon;
-                    formConfirmFileOverwrite.ShowDialog(this);
+                    formConfirmFileReplace.Icon = Icon;
+                    formConfirmFileReplace.ShowDialog(this);
                 });
 
-                return formConfirmFileOverwrite.FileOverwritePromptResult;
+                return formConfirmFileReplace.FileReplacePromptResult;
             }
         }
 

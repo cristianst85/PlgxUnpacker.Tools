@@ -1,6 +1,6 @@
 ﻿namespace PlgxUnpacker
 {
-    public enum FileOverwritePromptResult
+    public enum FileReplacePromptResult
     {
         Unknown = 0,
 

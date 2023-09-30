@@ -63,18 +63,18 @@
     <Compile Include="Commons\Formatting\TextStyleFormatter.cs" />
     <Compile Include="Extensions\AssemblyInformationalVersionAttributeExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="FileOverwritePromptResult.cs" />
+    <Compile Include="FileReplacePromptResult.cs" />
     <Compile Include="Controls\StatusStripRenderer.cs" />
     <Compile Include="Extensions\BoolExtensions.cs" />
     <Compile Include="Extensions\CheckBoxExtensions.cs" />
     <Compile Include="Extensions\CheckStateExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Extensions\FileOverwritePromptResultExtensions.cs" />
-    <Compile Include="FormConfirmFileOverwrite.cs">
+    <Compile Include="Extensions\FileReplacePromptResultExtensions.cs" />
+    <Compile Include="FormConfirmFileReplace.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormConfirmFileOverwrite.Designer.cs">
-      <DependentUpon>FormConfirmFileOverwrite.cs</DependentUpon>
+    <Compile Include="FormConfirmFileReplace.Designer.cs">
+      <DependentUpon>FormConfirmFileReplace.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUpdate.cs">
       <SubType>Form</SubType>
@@ -92,6 +92,11 @@
     </Compile>
     <Compile Include="Helpers\ServicePointManagerHelper.cs" />
     <Compile Include="Properties\GeneratedAssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Updater\GitHubApi\Release.cs" />
     <Compile Include="Updater\GitHubApi\ReleaseAsset.cs" />
     <Compile Include="Updater\GitHubWebUpdater.cs" />
@@ -141,8 +146,8 @@
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormConfirmFileOverwrite.resx">
-      <DependentUpon>FormConfirmFileOverwrite.cs</DependentUpon>
+    <EmbeddedResource Include="FormConfirmFileReplace.resx">
+      <DependentUpon>FormConfirmFileReplace.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -155,14 +160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -174,6 +174,7 @@
     <Content Include="Resources\Icons\box_cat.png" />
     <Content Include="Resources\Icons\readme.txt" />
     <Content Include="Resources\Menus\door_out.png" />
+    <Content Include="Resources\Menus\error_error.png" />
     <Content Include="Resources\Menus\exclamation.png" />
     <Content Include="Resources\Menus\folder.png" />
     <Content Include="Resources\Menus\folder_page_white.png" />
