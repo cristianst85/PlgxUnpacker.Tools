@@ -6,6 +6,7 @@ using PlgxUnpacker.Worker.EventArguments;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -35,6 +36,7 @@ namespace PlgxUnpacker
                 // Add handlers.
                 DragDrop += new DragEventHandler(FormMain_DragDrop);
                 DragEnter += new DragEventHandler(FormMain_DragEnter);
+                KeyUp += new KeyEventHandler(FormMain_KeyUp);
 
                 var version = AssemblyUtils.GetVersion();
                 Text = Text.Replace("{version}", version.ToString(3));
@@ -277,6 +279,7 @@ namespace PlgxUnpacker
                 progressBar.Value = 0;
                 progressBar.Maximum = 0;
                 buttonUnpack.Enabled = false;
+                copyFileInfoToolStripMenuItem.Enabled = false;
             });
         }
 
@@ -287,6 +290,7 @@ namespace PlgxUnpacker
                 buttonUnpack.Enabled = enabled;
                 openToolStripMenuItem.Enabled = enabled;
                 buttonOpenFolder.Enabled = enabled && plgxFileUnpackOptions.DirectoryPath.IsNotNullOrEmpty();
+                copyFileInfoToolStripMenuItem.Enabled = textBoxPluginName.Text.IsNotNullOrEmpty();
             });
         }
 
@@ -443,6 +447,37 @@ namespace PlgxUnpacker
             {
                 Process.Start(plgxFileUnpackOptions.DirectoryPath);
             }
+        }
+
+        private void FormMain_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                CopyFileInfoToClipboard();
+                e.Handled = true;
+            }
+        }
+
+        private void CopyFileInfoToClipboard()
+        {
+            if (textBoxPluginName.Text.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine($"Plugin Name: {textBoxPluginName.Text}");
+            stringBuilder.AppendLine($"Creation Date: {textBoxCreationDate.Text}");
+            stringBuilder.AppendLine($"Tool Name: {textBoxToolName.Text}");
+            stringBuilder.AppendLine($"Pre-build Command: {textBoxPreBuildCommand.Text}");
+            stringBuilder.AppendLine($"Post-build Command: {textBoxPostBuildCommand.Text}");
+
+            Clipboard.SetText(stringBuilder.ToString(), TextDataFormat.UnicodeText);
+        }
+
+        private void CopyFileInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyFileInfoToClipboard();
         }
     }
 }
