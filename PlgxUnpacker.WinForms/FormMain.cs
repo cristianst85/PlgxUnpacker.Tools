@@ -4,6 +4,7 @@ using PlgxUnpacker.Helpers;
 using PlgxUnpacker.Worker;
 using PlgxUnpacker.Worker.EventArguments;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -15,6 +16,7 @@ namespace PlgxUnpacker
     public partial class FormMain : Form
     {
         private PlgxFileUnpackerWorker plgxFileUnpackerWorker;
+        private PlgxFileUnpackOptions plgxFileUnpackOptions;
         private PlgxFile plgxFile;
 
         private volatile bool IsReady;
@@ -37,6 +39,8 @@ namespace PlgxUnpacker
                 var version = AssemblyUtils.GetVersion();
                 Text = Text.Replace("{version}", version.ToString(3));
                 UpdateStatusStrip(Properties.Resources.DragAndDropToUnpack);
+
+                this.plgxFileUnpackOptions = plgxFileUnpackOptions;
 
                 // Handle command line arguments.
                 if (plgxFileUnpackOptions.FilePath != null)
@@ -88,7 +92,7 @@ namespace PlgxUnpacker
 
             if (filePaths.Length > 0)
             {
-                var plgxFileUnpackOptions = new PlgxFileUnpackOptions()
+                this.plgxFileUnpackOptions = new PlgxFileUnpackOptions()
                 {
                     FilePath = filePaths[0]
                 };
@@ -140,11 +144,12 @@ namespace PlgxUnpacker
                     textBoxPluginName.Text = plgxFile.Info.PluginName;
                     textBoxCreationDate.Text = plgxFile.Info.PluginCreationDateTime.ToString("o");
                     textBoxToolName.Text = plgxFile.Info.PluginCreationToolName;
+                    textBoxPreBuildCommand.Text = plgxFile.Info.PreBuildCommand;
+                    textBoxPostBuildCommand.Text = plgxFile.Info.PostBuildCommand;
                 });
 
                 if (plgxFileUnpackOptions.DirectoryPath != null)
                 {
-
                     ToggleControls(enabled: false);
                     UnpackFileAsync(plgxFileUnpackOptions);
                     ToggleUnpackButtonText(enabled: true);
@@ -267,6 +272,8 @@ namespace PlgxUnpacker
                 textBoxPluginName.Text = string.Empty;
                 textBoxCreationDate.Text = string.Empty;
                 textBoxToolName.Text = string.Empty;
+                textBoxPreBuildCommand.Text = string.Empty;
+                textBoxPostBuildCommand.Text = string.Empty;
                 progressBar.Value = 0;
                 progressBar.Maximum = 0;
                 buttonUnpack.Enabled = false;
@@ -279,6 +286,7 @@ namespace PlgxUnpacker
             {
                 buttonUnpack.Enabled = enabled;
                 openToolStripMenuItem.Enabled = enabled;
+                buttonOpenFolder.Enabled = enabled && plgxFileUnpackOptions.DirectoryPath.IsNotNullOrEmpty();
             });
         }
 
@@ -331,7 +339,7 @@ namespace PlgxUnpacker
                     {
                         if (PlgxFileHelper.IsPlgxFileExtension(Path.GetExtension(openFileDialog.FileName)))
                         {
-                            var plgxFileUnpackOptions = new PlgxFileUnpackOptions()
+                            this.plgxFileUnpackOptions = new PlgxFileUnpackOptions()
                             {
                                 FilePath = openFileDialog.FileName
                             };
@@ -371,6 +379,7 @@ namespace PlgxUnpacker
         private void ButtonUnpack_Click(object sender, EventArgs e)
         {
             buttonUnpack.Enabled = false;
+            buttonOpenFolder.Enabled = false;
 
             if (buttonUnpack.Text == Properties.Resources.Cancel)
             {
@@ -384,9 +393,9 @@ namespace PlgxUnpacker
             using (var folderBrowserDialog = new FolderBrowserDialog())
             {
                 folderBrowserDialog.ShowNewFolderButton = true;
-                folderBrowserDialog.Description = Properties.Resources.SelectDirectoryToUnpack;
+                folderBrowserDialog.Description = Properties.Resources.SelectFolderToUnpack;
 
-                var plgxFileUnpackOptions = new PlgxFileUnpackOptions()
+                this.plgxFileUnpackOptions = new PlgxFileUnpackOptions()
                 {
                     FilePath = plgxFile.Path
                 };
@@ -425,6 +434,14 @@ namespace PlgxUnpacker
                 formUpdate.Update();
                 formUpdate.Icon = Icon;
                 formUpdate.ShowDialog(this);
+            }
+        }
+
+        private void ButtonOpenFolder_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(plgxFileUnpackOptions?.DirectoryPath))
+            {
+                Process.Start(plgxFileUnpackOptions.DirectoryPath);
             }
         }
     }

@@ -39,20 +39,25 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox = new System.Windows.Forms.GroupBox();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.buttonOpenFolder = new System.Windows.Forms.Button();
             this.buttonUnpack = new PlgxUnpacker.Controls.ButtonEx();
+            this.groupBox = new System.Windows.Forms.GroupBox();
+            this.labelPostBuildCommand = new System.Windows.Forms.Label();
+            this.textBoxPostBuildCommand = new PlgxUnpacker.Controls.ViewOnlyTextBox();
+            this.textBoxPreBuildCommand = new PlgxUnpacker.Controls.ViewOnlyTextBox();
+            this.labelPreBuildCommand = new System.Windows.Forms.Label();
             this.textBoxToolName = new PlgxUnpacker.Controls.ViewOnlyTextBox();
             this.labelToolName = new System.Windows.Forms.Label();
             this.textBoxCreationDate = new PlgxUnpacker.Controls.ViewOnlyTextBox();
             this.labelCreationDate = new System.Windows.Forms.Label();
             this.textBoxPluginName = new PlgxUnpacker.Controls.ViewOnlyTextBox();
             this.labelPluginName = new System.Windows.Forms.Label();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip.SuspendLayout();
-            this.groupBox.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -63,7 +68,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(406, 24);
+            this.menuStrip.Size = new System.Drawing.Size(370, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -127,7 +132,7 @@
             // 
             this.checkForUpdatesToolStripMenuItem.Image = global::PlgxUnpacker.Properties.Resources.world;
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.CheckForUpdatesToolStripMenuItem_Click);
             // 
@@ -135,13 +140,71 @@
             // 
             this.aboutToolStripMenuItem.Image = global::PlgxUnpacker.Properties.Resources.information;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
+            // progressBar
+            // 
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(12, 259);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(346, 23);
+            this.progressBar.Step = 1;
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar.TabIndex = 12;
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 320);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(370, 22);
+            this.statusStrip.SizingGrip = false;
+            this.statusStrip.Stretch = false;
+            this.statusStrip.TabIndex = 9;
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(355, 17);
+            this.toolStripStatusLabel.Spring = true;
+            this.toolStripStatusLabel.Text = "{status}";
+            this.toolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // buttonOpenFolder
+            // 
+            this.buttonOpenFolder.Enabled = false;
+            this.buttonOpenFolder.Location = new System.Drawing.Point(172, 288);
+            this.buttonOpenFolder.Name = "buttonOpenFolder";
+            this.buttonOpenFolder.Size = new System.Drawing.Size(90, 23);
+            this.buttonOpenFolder.TabIndex = 13;
+            this.buttonOpenFolder.Text = "Open &Folder...";
+            this.buttonOpenFolder.UseVisualStyleBackColor = true;
+            this.buttonOpenFolder.Click += new System.EventHandler(this.ButtonOpenFolder_Click);
+            // 
+            // buttonUnpack
+            // 
+            this.buttonUnpack.Location = new System.Drawing.Point(268, 288);
+            this.buttonUnpack.Name = "buttonUnpack";
+            this.buttonUnpack.Size = new System.Drawing.Size(90, 23);
+            this.buttonUnpack.TabIndex = 14;
+            this.buttonUnpack.Tag = "";
+            this.buttonUnpack.Text = "&Unpack...";
+            this.buttonUnpack.TextToggle = "&Cancel";
+            this.buttonUnpack.UseVisualStyleBackColor = true;
+            this.buttonUnpack.Click += new System.EventHandler(this.ButtonUnpack_Click);
+            // 
             // groupBox
             // 
-            this.groupBox.Controls.Add(this.buttonUnpack);
+            this.groupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox.Controls.Add(this.labelPostBuildCommand);
+            this.groupBox.Controls.Add(this.textBoxPostBuildCommand);
+            this.groupBox.Controls.Add(this.textBoxPreBuildCommand);
+            this.groupBox.Controls.Add(this.labelPreBuildCommand);
             this.groupBox.Controls.Add(this.textBoxToolName);
             this.groupBox.Controls.Add(this.labelToolName);
             this.groupBox.Controls.Add(this.textBoxCreationDate);
@@ -150,109 +213,111 @@
             this.groupBox.Controls.Add(this.labelPluginName);
             this.groupBox.Location = new System.Drawing.Point(12, 27);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(382, 116);
+            this.groupBox.Size = new System.Drawing.Size(346, 226);
             this.groupBox.TabIndex = 1;
             this.groupBox.TabStop = false;
+            this.groupBox.Text = "File Info";
             // 
-            // buttonUnpack
+            // labelPostBuildCommand
             // 
-            this.buttonUnpack.Location = new System.Drawing.Point(289, 19);
-            this.buttonUnpack.Name = "buttonUnpack";
-            this.buttonUnpack.Size = new System.Drawing.Size(82, 82);
-            this.buttonUnpack.TabIndex = 8;
-            this.buttonUnpack.Tag = "";
-            this.buttonUnpack.Text = "&Unpack...";
-            this.buttonUnpack.TextToggle = "&Cancel";
-            this.buttonUnpack.UseVisualStyleBackColor = true;
-            this.buttonUnpack.Click += new System.EventHandler(this.ButtonUnpack_Click);
+            this.labelPostBuildCommand.AutoSize = true;
+            this.labelPostBuildCommand.Location = new System.Drawing.Point(6, 161);
+            this.labelPostBuildCommand.Name = "labelPostBuildCommand";
+            this.labelPostBuildCommand.Size = new System.Drawing.Size(106, 13);
+            this.labelPostBuildCommand.TabIndex = 10;
+            this.labelPostBuildCommand.Text = "Post-build Command:";
+            // 
+            // textBoxPostBuildCommand
+            // 
+            this.textBoxPostBuildCommand.Location = new System.Drawing.Point(118, 158);
+            this.textBoxPostBuildCommand.Multiline = true;
+            this.textBoxPostBuildCommand.Name = "textBoxPostBuildCommand";
+            this.textBoxPostBuildCommand.ReadOnly = true;
+            this.textBoxPostBuildCommand.ShortcutsEnabled = false;
+            this.textBoxPostBuildCommand.Size = new System.Drawing.Size(216, 60);
+            this.textBoxPostBuildCommand.TabIndex = 11;
+            // 
+            // textBoxPreBuildCommand
+            // 
+            this.textBoxPreBuildCommand.Location = new System.Drawing.Point(118, 92);
+            this.textBoxPreBuildCommand.Multiline = true;
+            this.textBoxPreBuildCommand.Name = "textBoxPreBuildCommand";
+            this.textBoxPreBuildCommand.ReadOnly = true;
+            this.textBoxPreBuildCommand.ShortcutsEnabled = false;
+            this.textBoxPreBuildCommand.Size = new System.Drawing.Size(216, 60);
+            this.textBoxPreBuildCommand.TabIndex = 9;
+            // 
+            // labelPreBuildCommand
+            // 
+            this.labelPreBuildCommand.AutoSize = true;
+            this.labelPreBuildCommand.Location = new System.Drawing.Point(11, 95);
+            this.labelPreBuildCommand.Name = "labelPreBuildCommand";
+            this.labelPreBuildCommand.Size = new System.Drawing.Size(101, 13);
+            this.labelPreBuildCommand.TabIndex = 8;
+            this.labelPreBuildCommand.Text = "Pre-build Command:";
             // 
             // textBoxToolName
             // 
-            this.textBoxToolName.Location = new System.Drawing.Point(82, 81);
+            this.textBoxToolName.Location = new System.Drawing.Point(118, 66);
             this.textBoxToolName.Name = "textBoxToolName";
             this.textBoxToolName.ReadOnly = true;
             this.textBoxToolName.ShortcutsEnabled = false;
-            this.textBoxToolName.Size = new System.Drawing.Size(200, 20);
+            this.textBoxToolName.Size = new System.Drawing.Size(216, 20);
             this.textBoxToolName.TabIndex = 7;
             // 
             // labelToolName
             // 
             this.labelToolName.AutoSize = true;
-            this.labelToolName.Location = new System.Drawing.Point(19, 84);
+            this.labelToolName.Location = new System.Drawing.Point(50, 69);
             this.labelToolName.Name = "labelToolName";
             this.labelToolName.Size = new System.Drawing.Size(62, 13);
-            this.labelToolName.TabIndex = 4;
+            this.labelToolName.TabIndex = 6;
             this.labelToolName.Text = "Tool Name:";
             // 
             // textBoxCreationDate
             // 
-            this.textBoxCreationDate.Location = new System.Drawing.Point(82, 51);
+            this.textBoxCreationDate.Location = new System.Drawing.Point(118, 40);
             this.textBoxCreationDate.Name = "textBoxCreationDate";
             this.textBoxCreationDate.ReadOnly = true;
             this.textBoxCreationDate.ShortcutsEnabled = false;
-            this.textBoxCreationDate.Size = new System.Drawing.Size(200, 20);
-            this.textBoxCreationDate.TabIndex = 6;
+            this.textBoxCreationDate.Size = new System.Drawing.Size(216, 20);
+            this.textBoxCreationDate.TabIndex = 5;
             // 
             // labelCreationDate
             // 
             this.labelCreationDate.AutoSize = true;
-            this.labelCreationDate.Location = new System.Drawing.Point(6, 54);
+            this.labelCreationDate.Location = new System.Drawing.Point(37, 43);
             this.labelCreationDate.Name = "labelCreationDate";
             this.labelCreationDate.Size = new System.Drawing.Size(75, 13);
-            this.labelCreationDate.TabIndex = 3;
+            this.labelCreationDate.TabIndex = 4;
             this.labelCreationDate.Text = "Creation Date:";
             // 
             // textBoxPluginName
             // 
-            this.textBoxPluginName.Location = new System.Drawing.Point(82, 19);
+            this.textBoxPluginName.Location = new System.Drawing.Point(118, 15);
             this.textBoxPluginName.Name = "textBoxPluginName";
             this.textBoxPluginName.ReadOnly = true;
             this.textBoxPluginName.ShortcutsEnabled = false;
-            this.textBoxPluginName.Size = new System.Drawing.Size(200, 20);
-            this.textBoxPluginName.TabIndex = 5;
+            this.textBoxPluginName.Size = new System.Drawing.Size(216, 20);
+            this.textBoxPluginName.TabIndex = 3;
             // 
             // labelPluginName
             // 
             this.labelPluginName.AutoSize = true;
-            this.labelPluginName.Location = new System.Drawing.Point(11, 22);
+            this.labelPluginName.Location = new System.Drawing.Point(42, 18);
             this.labelPluginName.Name = "labelPluginName";
             this.labelPluginName.Size = new System.Drawing.Size(70, 13);
             this.labelPluginName.TabIndex = 2;
             this.labelPluginName.Text = "Plugin Name:";
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(12, 149);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(382, 23);
-            this.progressBar.Step = 1;
-            this.progressBar.TabIndex = 9;
-            // 
-            // statusStrip
-            // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 180);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(406, 22);
-            this.statusStrip.SizingGrip = false;
-            this.statusStrip.Stretch = false;
-            this.statusStrip.TabIndex = 9;
-            // 
-            // toolStripStatusLabel
-            // 
-            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(391, 17);
-            this.toolStripStatusLabel.Spring = true;
-            this.toolStripStatusLabel.Text = "{status}";
-            this.toolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 202);
+            this.ClientSize = new System.Drawing.Size(370, 342);
+            this.Controls.Add(this.buttonOpenFolder);
+            this.Controls.Add(this.buttonUnpack);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.groupBox);
@@ -266,10 +331,10 @@
             this.Text = "PlgxUnpacker {version}";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            this.groupBox.ResumeLayout(false);
-            this.groupBox.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            this.groupBox.ResumeLayout(false);
+            this.groupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,18 +351,23 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.GroupBox groupBox;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private System.Windows.Forms.Button buttonOpenFolder;
         private Controls.ButtonEx buttonUnpack;
+        private System.Windows.Forms.GroupBox groupBox;
+        private System.Windows.Forms.Label labelPostBuildCommand;
+        private Controls.ViewOnlyTextBox textBoxPostBuildCommand;
+        private Controls.ViewOnlyTextBox textBoxPreBuildCommand;
+        private System.Windows.Forms.Label labelPreBuildCommand;
         private Controls.ViewOnlyTextBox textBoxToolName;
         private System.Windows.Forms.Label labelToolName;
         private Controls.ViewOnlyTextBox textBoxCreationDate;
         private System.Windows.Forms.Label labelCreationDate;
         private Controls.ViewOnlyTextBox textBoxPluginName;
         private System.Windows.Forms.Label labelPluginName;
-        private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
-        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
     }
 }
 

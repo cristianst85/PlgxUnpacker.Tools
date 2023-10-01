@@ -48,8 +48,8 @@
       <EmbedAssembly>true</EmbedAssembly>
       <Private>False</Private>
     </Reference>
-    <Reference Include="PlgxUnpackerNet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PlgxUnpacker.0.2.0\lib\net45\PlgxUnpackerNet.dll</HintPath>
+    <Reference Include="PlgxUnpackerNet, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PlgxUnpacker.0.3.0\lib\net45\PlgxUnpackerNet.dll</HintPath>
       <EmbedAssembly>true</EmbedAssembly>
       <Private>False</Private>
     </Reference>

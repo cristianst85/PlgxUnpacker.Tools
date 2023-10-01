@@ -175,11 +175,11 @@ namespace PlgxUnpacker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select a directory where to unpack the PLGX file to..
+        ///   Looks up a localized string similar to Select a folder where to unpack the PLGX file to..
         /// </summary>
-        internal static string SelectDirectoryToUnpack {
+        internal static string SelectFolderToUnpack {
             get {
-                return ResourceManager.GetString("SelectDirectoryToUnpack", resourceCulture);
+                return ResourceManager.GetString("SelectFolderToUnpack", resourceCulture);
             }
         }
         
