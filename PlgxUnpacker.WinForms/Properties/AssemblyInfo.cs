@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cristian Stoica")]
 [assembly: AssemblyProduct("PlgxUnpacker")]
-[assembly: AssemblyCopyright("Copyright © 2023 Cristian Stoica")]
+[assembly: AssemblyCopyright("Copyright © 2023-2024 Cristian Stoica")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
