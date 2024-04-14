@@ -35,6 +35,10 @@ You can download compiled binaries from [here](https://github.com/cristianst85/P
 * Menu icons are from the Silk icon set by [Mark James](http://www.famfamfam.com/lab/icons/silk/) licensed under [Creative Commons Attribution 2.5](http://creativecommons.org/licenses/by/2.5/).
 * Includes third party libraries like [PlgxUnpacker.NET](https://github.com/cristianst85/PlgxUnpacker.NET) and [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) that are subject to their respective license agreements.
 
-## Related Projects
+## Credits
+
+The idea for this tool was inspired by [PlgxExtractor](https://github.com/Geograph-us/PlgxExtractor).
+
+## Related Project
  
-* [PlgxUnpacker.NET](https://github.com/cristianst85/PlgxUnpacker.NET)
+[PlgxUnpacker.NET](https://github.com/cristianst85/PlgxUnpacker.NET)
